@@ -1,5 +1,7 @@
 package com.practice.springSecurityPractice.config;
 
+import com.practice.springSecurityPractice.service.CustomAuthenticationProvider;
+import lombok.AllArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +19,14 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class ProjectConfig {
+
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("Jane")
+        UserDetails user = User.withUsername("john")
                 .password(passwordEncoder().encode("12345"))
                 .authorities("read")
                 .build();
