@@ -1,34 +1,24 @@
 package com.practice.springSecurityPractice.config;
 
+import com.practice.springSecurityPractice.model.User;
+import com.practice.springSecurityPractice.service.InMemoryUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.util.List;
 
 @Configuration
 public class UserManagementConfig {
 
     @Bean
-    public UserDetailsService userDetailsService(){
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-        UserDetails user1 = User.withUsername("john")
-                .password(passwordEncoder().encode("12345"))
-                .authorities("read")
-                .build();
-
-        UserDetails user2 = User.withUsername("Jane")
-                .password(passwordEncoder().encode("12345"))
-                .authorities("read")
-                .build();
-
-        userDetailsService.createUser(user1);
-        userDetailsService.createUser(user2);
-        return userDetailsService;
-
+    public UserDetailsService userDetailsService() {
+        UserDetails u = new User("john", "12345", "read");
+        List<UserDetails> users = List.of(u);
+        return new InMemoryUserDetailsService(users);
     }
 
     @Bean
